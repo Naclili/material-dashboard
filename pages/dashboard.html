@@ -28,8 +28,6 @@
   <!-- Nucleo Icons -->
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <!-- Material Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
   <!-- CSS Files -->
@@ -207,7 +205,7 @@
               <div class="d-flex justify-content-between">
                 <div>
                   <p class="text-sm mb-0 text-capitalize">Total Particle Number</p>
-                  <h4 class="mb-0">1990.90 /cm&sup3</h4>
+                  <h4 class="mb-0">1991 /cm&sup3</h4>
                 </div>
               </div>
             </div>
@@ -223,7 +221,7 @@
               <div class="d-flex justify-content-between">
                 <div>
                   <p class="text-sm mb-0 text-capitalize">Solid Particle Number</p>
-                  <h4 class="mb-0">884.20 /cm&sup3</h4>
+                  <h4 class="mb-0">884 /cm&sup3</h4>
                 </div>
               </div>
             </div>
@@ -239,7 +237,7 @@
               <div class="d-flex justify-content-between">
                 <div>
                   <p class="text-sm mb-0 text-capitalize">Total Geometric Mean Diameter</p>
-                  <h4 class="mb-0">78.96 nm</h4>
+                  <h4 class="mb-0">78.9 nm</h4>
                 </div>
               </div>
             </div>
@@ -255,7 +253,7 @@
               <div class="d-flex justify-content-between">
                 <div>
                   <p class="text-sm mb-0 text-capitalize">Solid Geometric Mean Diameter</p>
-                  <h4 class="mb-0">74.48 nm</h4>
+                  <h4 class="mb-0">74.5 nm</h4>
                 </div>
               </div>
             </div>
@@ -273,45 +271,56 @@
         <div class="card-body d-flex flex-column">
           <h6 class="mb-0">Air Quality Snapshot</h6>
           <p class="text-sm">Realtime Pollutant Readings</p>
-
+          <div class="d-flex text-sm">
+            <div>Latitude: <span id="latitude">59.3293</span></div>
+            <div class="ms-4">Longitude: <span id="longitude">18.0686</span></div>
+          </div>
           <!-- Data Labels -->
           <div class="pt-3">
             <table class="table table-borderless table-sm text-sm mb-0">
               <tbody>
-                <tr>
-                  <td colspan="2" class="d-flex align-items-center">
-                    <i class="material-symbols-rounded">thermostat</i>
-                    <strong>Temperature in &deg;C:</strong></td>
-                  <td>18.6</td>
-                </tr>
-                <tr>
-                  <td colspan="2" class="d-flex align-items-center">
-                    <i class="material-symbols-rounded">location_on</i>
-                    <strong>Location:</strong></td>
-                  <td>Frankfurt </td>
+              <tr>
+                <td colspan="2" class="d-flex align-items-center">
+                  <i class="material-symbols-rounded">thermostat</i>
+                  <strong>Temperature in &deg;C</strong></td>
+                  <td id="temp-value">18.6</td>
+              </tr>
+
+              <tr>
+                <td colspan="2" class="d-flex align-items-center">
+                  <i class="material-symbols-rounded">water_drop</i>
+                  <strong>Humidity</strong></td>
+                  <td id="humidity">60.1</td>
+              </tr>
+
+              <tr>
+                <td colspan="2" class="d-flex align-items-center">
+                  <i class="material-symbols-rounded">air</i>
+                  <strong>Inversion</strong></td>
+                <td id="inversion">No</td>
               </tr>
                 <td colspan="2" class="d-flex align-items-center">
                   <i class="material-symbols-rounded">blur_on</i>
-                  <strong>O<sub>3</sub> in ppb:</strong></td>
-                  <td>88.69</td>
+                  <strong>O<sub>3</sub> in ppb</strong></td>
+                  <td id="ozone-value">88.69</td>
                 </tr>
                 <tr>
                   <td colspan="2" class="d-flex align-items-center">
                     <i class="material-symbols-rounded">foggy</i>
                     <strong>NO<sub>2</sub> in ppb</strong></td>
-                    <td>2.46</td>
+                    <td id="no2-value">2.46</td>
                 </tr>
                 <tr>
                   <td colspan="2" class="d-flex align-items-center">
                     <i class="material-symbols-rounded">cloudy</i>
-                    <strong>CO in ppb:</strong></td>
-                  <td>260.35</td>
+                    <strong>CO in ppb</strong></td>
+                  <td id="co-value">260.35</td>
                 </tr>
                 <tr>
                   <td colspan="2" class="d-flex align-items-center">
                     <i class="material-symbols-rounded">water_drop</i>
                     <strong>SO<sub>2</sub> in ppb</strong></td>
-                  <td>88.69</td>
+                  <td id="so2-value">88.69</td>
                 </tr>
               </tr>
               </tbody>
@@ -603,6 +612,40 @@ new Chart(ctx2, {
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
+  <!-- Get Wetter Information -->
+  <script>
+    const API_KEY = "API_KEY";
+    const lat = 50.1109;  
+    const lon = 8.6821;   
+    document.getElementById("latitude").textContent = lat.toFixed(2)
+    document.getElementById("longitude").textContent = lon.toFixed(2)
+    const url = 'https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}';
+    const weatherUrl ='http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}';
+    console.log("🔄 Fetching weather and air quality data...");
+    function updateWeather() {
+      fetch(weatherUrl)
+        .then(res => res.json())
+        .then(data => {
+          const temp = data.main.temp.toFixed(1);
+          document.getElementById("temp-value").textContent = temp;
+        })
+        .catch(err => console.error("Weather error:", err));
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          console.log("🌀 Air pollution data:", data);
+          const info = data.list[0].components;
+          document.getElementById("ozone-value").textContent = info.o3.toFixed(2);
+          document.getElementById("no2-value").textContent = info.no2.toFixed(2);
+          document.getElementById("co-value").textContent = info.co.toFixed(2);
+          document.getElementById("so2-value").textContent = info.so2.toFixed(2);
+        })
+        .catch(err => console.error("Air quality error:", err));
+    }
+    updateWeather();
+    setInterval(updateWeather, 20 * 60 * 1000);
+    </script>
+    
 </body>
 
 </html>
