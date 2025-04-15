@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NanoDUST Dashboard</title>
+  <!-- Stylesheets -->
+  <link href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<!-- Sidebar -->
+<body class="g-sidenav-show  bg-gray-100">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
+      <div class="sidenav-header">
+        <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+        <a class="navbar-brand px-4 py-3 m-0" href=" https://www.nanodust.de/ " target="_blank">
+          <img src="../assets/img/logo.png" class="navbar-brand-img" width="30" height="26" alt="main_logo">
+          <span class="ms-1 text-sm text-dark">Nano DUST</span>
+        </a>
+      </div>
+      <hr class="horizontal dark mt-0 mb-2">
+      <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active bg-gradient-dark text-white" href="../pages/dashboard_new.html">
+              <i class="material-symbols-rounded opacity-5">dashboard</i>
+              <span class="nav-link-text ms-1">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="../pages/device_info.html">
+              <!-- Set icon -->
+              <i class="material-symbols-rounded opacity-5">devices</i>
+              <span class="nav-link-text ms-1">Device Info</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="../pages/map.html">
+              <i class="material-symbols-rounded opacity-5">map_search</i>
+              <span class="nav-link-text ms-1">Map</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="../pages/virtual-reality.html">
+              <i class="material-symbols-rounded opacity-5">data_table</i>
+              <span class="nav-link-text ms-1">Data Log</span>
+            </a>
+          </li>
+        
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="../pages/sign-in.html">
+              <i class="material-symbols-rounded opacity-5">login</i>
+              <span class="nav-link-text ms-1">Sign Out</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur">
+      <!-- Navbar content here -->
+    </nav>
+
+    <div class="container-fluid py-4">
+        <div class="row">
+          <div class="ms-3">
+            <h3 class="mb-0 h4 font-weight-bolder">Air Quality Dashboard</h3>
+            <p class="mb-4">
+              Check current values of tPN, sPN, tGMD, and sGMD.
+            </p>
+          </div>
+    
+    <div class="container-fluid py-4">    
+      <!-- Air Quality Cards Current Values -->
+      <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <p>Total Particle Number</p>
+              <h4 id="tPN">Loading...</h4>
+            </div>
+          </div>
+        </div>
+        <!-- Other similar cards -->
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <p>Solid Particle Number</p>
+              <h4 id="sPN">Loading...</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <p>Total Geometric Mean Diameter</p>
+              <h4 id="tGMD">Loading...</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <p>Solid Geometric Mean Diameter</p>
+              <h4 id="sGMD">Loading...</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <div class="row">
+          <!-- Air Quality Snapshot -->
+          <div class="col-lg-4 col-md-6 mt-4 mb-4">
+            <div class="card h-100">
+              <div class="card-body d-flex flex-column">
+                <h6 class="mb-0">Air Quality Snapshot</h6>
+                <p class="text-sm">Realtime Pollutant Readings</p>
+                <div class="d-flex text-sm">
+                  <div>Latitude: <span id="latitude">59.3293</span></div>
+                  <div class="ms-4">Longitude: <span id="longitude">18.0686</span></div>
+                </div>
+                <div class="pt-3">
+                  <table class="table table-borderless table-sm text-sm mb-0">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="d-flex align-items-center"><i class="material-symbols-rounded">thermostat</i><strong>Temperature in &deg;C</strong></td>
+                        <td id="temp-value">18.6</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="d-flex align-items-center"><i class="material-symbols-rounded">water_drop</i><strong>Humidity</strong></td>
+                        <td id="humidity">60.1</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="d-flex align-items-center"><i class="material-symbols-rounded">air</i><strong>Inversion</strong></td>
+                        <td id="inversion">No</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="d-flex align-items-center"><i class="material-symbols-rounded">blur_on</i><strong>O<sub>3</sub> in ppb</strong></td>
+                        <td id="ozone-value">88.69</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="d-flex align-items-center"><i class="material-symbols-rounded">foggy</i><strong>NO<sub>2</sub> in ppb</strong></td>
+                        <td id="no2-value">2.46</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="d-flex align-items-center"><i class="material-symbols-rounded">cloudy</i><strong>CO in ppb</strong></td>
+                        <td id="co-value">260.35</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="d-flex align-items-center"><i class="material-symbols-rounded">water_drop</i><strong>SO<sub>2</sub> in ppb</strong></td>
+                        <td id="so2-value">88.69</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="mt-auto">
+                    <hr class="dark horizontal">
+                    <div class="d-flex">
+                      <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                      <p class="mb-0 text-sm">updated just now</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Particle Number -->
+          <div class="col-lg-4 col-md-6 mt-4 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h6 class="mb-0">Particle Number</h6>
+                <p class="text-sm">Overview</p>
+                <div class="pe-2">
+                  <div class="chart">
+                    <canvas id="chartPN" height="170"></canvas>
+                  </div>
+                </div>
+                <hr class="dark horizontal">
+                <div class="d-flex">
+                  <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                  <p class="mb-0 text-sm">just updated</p>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Geometric Mean Diameter -->
+          <div class="col-lg-4 col-md-6 mt-4 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h6 class="mb-0">Geometric Mean Diameter</h6>
+                <p class="text-sm">Overview</p>
+                <div class="pe-2">
+                  <div class="chart">
+                    <canvas id="chartGMD" height="170"></canvas>
+                  </div>
+                </div>
+                <hr class="dark horizontal">
+                <div class="d-flex">
+                  <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                  <p class="mb-0 text-sm">just updated</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+      
+      <!-- Footer -->
+      <footer class="footer py-4  ">
+        <div class="container-fluid">
+          <div class="row align-items-center justify-content-lg-between">
+              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                <li class="nav-item">
+                  <a href="https://www.nanodust.de/" class="nav-link text-muted" target="_blank">NANO DUST</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://www.nanodust.de/ueber-uns/" class="nav-link text-muted" target="_blank">About Us</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    const API_KEY='431b2936987c375afd293ebdf503cf4e';
+    const lat = 100;
+    const lon = 20;
+    const weatherAPI = 'http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&$lon={lon}&appid=${API_KEY}';
+    // const lambdaAPI = 'https://your-lambda-api-endpoint.com/data';
+
+    function fetchAirQuality() {
+      fetch(weatherAPI).then(res => res.json()).then(data => {
+        const comp = data.list[0].components;
+        document.getElementById('o3').innerText = comp.o3;
+        document.getElementById('no2').innerText = comp.no2;
+        document.getElementById('co').innerText = comp.co;
+        document.getElementById('so2').innerText = comp.so2;
+      });
+    }
+
+    function fetchParticleData() {
+      fetch(lambdaAPI).then(res => res.json()).then(data => {
+        const labels = data.labels;
+        updateChart(chartPN, labels, [data.tPN, data.sPN]);
+        updateChart(chartGMD, labels, [data.tGMD, data.sGMD]);
+      });
+    }
+
+    const ctxPN = document.getElementById('chartPN').getContext('2d');
+    const ctxGMD = document.getElementById('chartGMD').getContext('2d');
+
+    const chartPN = new Chart(ctxPN, { type: 'line', data: { labels: [], datasets: [{ label: 'tPN' }, { label: 'sPN' }] } });
+    const chartGMD = new Chart(ctxGMD, { type: 'line', data: { labels: [], datasets: [{ label: 'tGMD' }, { label: 'sGMD' }] } });
+
+    function updateChart(chart, labels, datasets) {
+      chart.data.labels = labels;
+      chart.data.datasets.forEach((dataset, i) => dataset.data = datasets[i]);
+      chart.update();
+    }
+
+    function updateDashboard() {
+      fetchAirQuality();
+      fetchParticleData();
+    }
+
+    updateDashboard();
+    setInterval(updateDashboard, 60000);
+  </script>
+</body>
+</html>
