@@ -16,16 +16,22 @@
   <div id="temperature">正在获取天气信息...</div>
  
   <script>
-    const latitude = 39.9042;  // 北京的纬度
-    const longitude = 116.4074; // 北京的经度
-
+    const lat = 39.90;  // 北京的纬度
+    const lon = 116.41; // 北京的经度
+    const cnt = 1;
+    const API_key = '';
     async function fetchWeather() {
       try {
-        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
-        const data = await res.json();
-        const temperature = data.current_weather.temperature;
+        // const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
+        const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${API_key}&units=metric`;
+        const res  = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP error! 状态码: ${res.status}`);
+            const data = await res.json();
+            console.debug(data);
+            console.debug(typeof data)
+        const temperature = data.current.temp;
         const time = new Date().toLocaleString('zh-CN', { hour12: false });
-        console.debug(data);
+        
         document.getElementById('temperature').textContent = `当前温度：${temperature}°C`;
         document.getElementById('time').textContent = `当前湿度：${time}`;
       } catch (error) {
@@ -34,7 +40,7 @@
       }
     }
     fetchWeather()
-    setInterval(fetchWeather, 1 * 1 * 1000);
+    // setInterval(fetchWeather, 1 * 1 * 1000);
   </script>
 
 </body>
